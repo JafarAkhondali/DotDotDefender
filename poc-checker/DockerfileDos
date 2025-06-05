@@ -1,0 +1,19 @@
+FROM node:20.11.1
+
+# Install lsof, curl, and any other utilities you might need
+RUN apt-get update && apt-get install -y \
+    lsof \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Yarn
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash
+
+# Ensure Yarn is in the PATH
+ENV PATH="$PATH:`yarn global bin`"
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy your Node.js script and package.json into the container
+COPY ./webapp-dos .

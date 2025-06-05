@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  mysql_restoring0day:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: $SQL_DATABASE
+      MYSQL_USER: $SQL_USERNAME
+      MYSQL_PASSWORD: $SQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: $SQL_PASSWORD
+    ports:
+      - "3309:3306"
+    volumes:
+      - 0day-research_data:/var/lib/mysql  # Reuse the existing volume
+#    volumes:
+#      - data:/var/lib/mysql
+      #- ./docker-init-scripts/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+volumes:
+  0day-research_data:
+    external: true
