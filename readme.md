@@ -1,29 +1,83 @@
 # DotDot Defender
+<p align="center">
+<img width="3393" height="1623" alt="Image" src="https://github.com/user-attachments/assets/0e3166a4-c1ed-464b-827a-34fd725bc59a" />
+</p>
+The story starts after I discovered the [CVE-2023-39141](https://www.vicarius.io/vsociety/posts/cve-2023-39141-path-traversal-vulnerability-in-webui-aria2), and realized the vulnerable code is spreaded EVERYWHERE. As it was technically infeasible for me to check & report manually, we decided to team up and implement a pipeline to Find, Verify SAST, DAST(0 false positives via auto running), Assess CVSS scores, Fix(GPT-4), Patch and send Pull Requests, fully automatically.
 
-### Installation:
+## ⚠️ Disclaimer
+
+This project is provided **strictly for research and educational purposes only**.
+
+- Do **not** attempt to send issues, vulnerability reports, or patches to repositories that have **already received a report from us**.  
+  This is partially automated in the code, so please **make sure you understand each module before execution**.  
+- The authors take **no responsibility** for any misuse of this project.  
+- Vulnerable code is executed inside Docker containers. It is **expected to be safe**, but there is **no absolute guarantee**.  
+- Although the source code of this pipeline is free to use, parts related to SAST (SemGrep and CodeQL) may have **different licenses** depending on your usage.  
+  It is the user’s responsibility to verify and comply with all applicable license agreements.  
+
+---
+
+## 🔧 Installation
+
+This program was developed and tested on **GNU/Linux**, and partially tested on **macOS**.  
+**Windows/WSL are not tested nor recommended.** Running the project inside a docker container(DIND) is not recommended as this way the nested containers can bypass the sandbox.
+
+Please read the instructions carefully before running the program, as incorrect usage may result in **spamming reports**.  
+
+Requirements:  
+- Docker and Docker Compose installed and available in your CLI.  
+- Pipeline must run either as **root** (recommended for Docker commands), or with Docker accessible to the current user (⚠️ this may reduce security).  
+- CodeQL and Semgrep must be installed.  
 
 ```bash
-# Update env variables
+# Clone repo
+git clone https://github.com/JafarAkhondali/DotDotDefender.git
+cd DotDotDefender
+
+# Configure environment variables
 cp env.example .env
+nano .env 
 
 # Run database image
 sudo docker-compose up -d
 
-#Docker is also required for pipeline steps
-
+# Set up Python environment
+python3 -m venv venv
+source ./venv/bin/activate
+export PYTHONPATH=$(pwd)
 pip3 install -r requirements.txt
 
 # Install CodeQL - https://github.com/github/codeql-action/releases
+# Install SemGrep CLI - https://semgrep.dev/docs/cli-reference
 ```
 
-### Usage:
+## Full paper:
+You can access the paper [here](https://dl.acm.org/doi/10.1145/3708821.3736220)
 
-This programs consists of several components, each of them are designed to ran independently, contributing to the pipeline.
-1. Scrapper: Searches for specific patterns of vulnerable code(`scrapper/recursive-scrapper.py`)
-2. Static analysis: Validates the vulnerability by running SemGrep `sast/grep.py` with specific payload
-3. PoC checker: Runs the program and executes the payload ( `poc-checker` must be run as root for docker commands)
-Note: In this directory, there are 3 different poc checkers and all of them must ran to complete this step: `run-poc-network.py`, `run-poc-local.py` and `run-poc-dos.py`   
-4. Reporter: Calculates CVSS Score with `calculate_cvss_scores.py` and prepares a fix using GPT4 in `patcher.py`
-5. Reporter: Run `pather.py` to verify vulnerability still exists, and apply a verified patch using LLM.
-6. pull-requester: Run `add_first_appeared.py` to get the time when the first vulnerable commit was seen.
-7. pull-requester: Run `run.py` to re-verify the patch and send pull request.
+## Sample generated patch
+<img width="780" height="311" alt="Image" src="https://github.com/user-attachments/assets/6de8b237-783c-489f-9f50-c374bd6959cd" />
+
+## LLM contamination
+This figure illustrates how training data from vulnerable repositories can contaminate LLM outputs, causing the reproduction of insecure code patterns(more details in paper).
+<img width="7200" height="2400" alt="Image" src="https://github.com/user-attachments/assets/8a6ebed3-7deb-4f0d-9f46-2f95e27480b5" />
+
+
+## 🤝 Contributing
+We welcome contributions to improve **DotDot Defender**! Morover you are more than welcome to maintain your own fork and research.
+
+If you’d like to add features, fix bugs, or improve documentation, please follow these steps:  
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request
+
+## License
+Although the source code of this pipeline is free to use, parts related to SAST (SemGrep and CodeQL) may have **different licenses** depending on your usage.  It is the user’s responsibility to verify and comply with all applicable license agreements.  
+
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=JafarAkhondali/DotDotDefender&type=Date)](https://star-history.com/#JafarAkhondali/DotDotDefender&Date)
+
