@@ -6,7 +6,7 @@
 </p>
 
 
-The story starts after I discovered the [CVE-2023-39141](https://www.vicarius.io/vsociety/posts/cve-2023-39141-path-traversal-vulnerability-in-webui-aria2), and realized the vulnerable code is spreaded EVERYWHERE. As it was technically infeasible for me to check & report manually, we decided to team up and implement a pipeline to Find, Verify SAST, DAST(0 false positives via auto running), Assess CVSS scores, Fix(GPT-4), Patch and send Pull Requests, fully automatically.
+The story starts after I discovered the [CVE-2023-39141](https://gist.github.com/JafarAkhondali/528fe6c548b78f454911fb866b23f66e), and realized the vulnerable code is spreaded EVERYWHERE. As it was technically infeasible for me to check & report manually, we decided to team up and implement a pipeline to Find, Verify SAST, DAST(0 false positives via auto running), Assess CVSS scores, Fix(GPT-4), Patch and send Pull Requests, fully automatically.
 
 
 ## Full paper:
