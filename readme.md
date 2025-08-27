@@ -1,7 +1,9 @@
 # DotDot Defender
 <p align="center">
-<img width="3393" height="1623" alt="Image" src="https://github.com/user-attachments/assets/0e3166a4-c1ed-464b-827a-34fd725bc59a" />
+<img alt="Image" src="pipelineflow.png" />
 </p>
+
+
 The story starts after I discovered the [CVE-2023-39141](https://www.vicarius.io/vsociety/posts/cve-2023-39141-path-traversal-vulnerability-in-webui-aria2), and realized the vulnerable code is spreaded EVERYWHERE. As it was technically infeasible for me to check & report manually, we decided to team up and implement a pipeline to Find, Verify SAST, DAST(0 false positives via auto running), Assess CVSS scores, Fix(GPT-4), Patch and send Pull Requests, fully automatically.
 
 ## ⚠️ Disclaimer
