@@ -10,8 +10,8 @@ The story starts after I discovered the [CVE-2023-39141](https://gist.github.com
 
 
 ## Full paper:
-You can access the paper [here](https://dl.acm.org/doi/10.1145/3708821.3736220)
-
+You can access the paper [Eradicating the Unseen: Detecting, Exploiting, and Remediating a Path Traversal Vulnerability across GitHub](https://dl.acm.org/doi/10.1145/3708821.3736220)  
+_Jafar Akhoundali, Hamidreza Hamidi, Kristian Rietveld, Olga Gadyatskaya - Published in Asia CCS 2025_
 
 ## ⚠️ Disclaimer
 
