@@ -1,10 +1,17 @@
-# DotDot Defender
+<h1 align="center">Dot Dot Defender</h1>
+
+
 <p align="center">
 <img alt="Image" src="pipelineflow.png" />
 </p>
 
 
 The story starts after I discovered the [CVE-2023-39141](https://www.vicarius.io/vsociety/posts/cve-2023-39141-path-traversal-vulnerability-in-webui-aria2), and realized the vulnerable code is spreaded EVERYWHERE. As it was technically infeasible for me to check & report manually, we decided to team up and implement a pipeline to Find, Verify SAST, DAST(0 false positives via auto running), Assess CVSS scores, Fix(GPT-4), Patch and send Pull Requests, fully automatically.
+
+
+## Full paper:
+You can access the paper [here](https://dl.acm.org/doi/10.1145/3708821.3736220)
+
 
 ## ⚠️ Disclaimer
 
@@ -43,8 +50,10 @@ nano .env
 # Run database image
 sudo docker-compose up -d
 
-# Set up Python environment
+# Set up Python environment 
 python3 -m venv venv
+
+# Below 3 steps must be done for each time you want to run the code
 source ./venv/bin/activate
 export PYTHONPATH=$(pwd)
 pip3 install -r requirements.txt
@@ -53,8 +62,41 @@ pip3 install -r requirements.txt
 # Install SemGrep CLI - https://semgrep.dev/docs/cli-reference
 ```
 
-## Full paper:
-You can access the paper [here](https://dl.acm.org/doi/10.1145/3708821.3736220)
+## Usage
+
+This program consists of several components. Each one is designed to run independently, contributing to the overall pipeline:
+
+1. **Scraper**  
+   Searches for specific patterns of vulnerable code using GitHub Code Search feature.  
+   File: `scrapper/recursive-scrapper.py`
+
+2. **Static Analysis**  
+   Validates the vulnerability by running **SemGrep** with specific payloads.  
+   File: `sast/grep.py`
+
+3. **PoC Checker**  
+   Executes the program with the payload.  
+   - Must be run as **root** for Docker commands.  
+   - There are 3 different PoC checkers — **all must be run** to complete this step:  
+     - `run-poc-network.py`  
+     - `run-poc-local.py`  
+     - `run-poc-dos.py`
+
+4. **Reporter (Scoring & Patching)**  
+   - Calculates CVSS Score → `calculate_cvss_scores.py`  
+   - Prepares a fix using GPT-4 → `patcher.py`
+
+5. **Reporter (Verification & Patch Application)**  
+   - Verifies the vulnerability still exists → `patcher.py`  
+   - Applies a verified patch using an LLM.
+
+6. **Pull Requester (Commit History)**  
+   Retrieves the time when the first vulnerable commit appeared.  
+   File: `add_first_appeared.py`
+
+7. **Pull Requester (PR Submission)**  
+   ⚠️ **Warning**: If you are testing, **DO NOT RUN** `run.py` - it will re-verify the patch and send an actual pull request.
+
 
 ## Sample generated patch
 <img width="780" height="311" alt="Image" src="https://github.com/user-attachments/assets/6de8b237-783c-489f-9f50-c374bd6959cd" />
