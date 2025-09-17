@@ -13,6 +13,18 @@ The story starts after I discovered the [CVE-2023-39141](https://gist.github.com
 You can access the paper [Eradicating the Unseen: Detecting, Exploiting, and Remediating a Path Traversal Vulnerability across GitHub](https://dl.acm.org/doi/10.1145/3708821.3736220)  
 _Jafar Akhoundali, Hamidreza Hamidi, Kristian Rietveld, Olga Gadyatskaya - Published in Asia CCS 2025_
 
+### Citation:
+Please cite the paper as:   
+```latex
+@inproceedings{akhoundali2025eradicating,
+  title={Eradicating the Unseen: Detecting, Exploiting, and Remediating a Path Traversal Vulnerability across GitHub},
+  author={Akhoundali, Jafar and Hamidi, Hamidreza and Rietveld, Kristian and Gadyatskaya, Olga},
+  booktitle={Proceedings of the 20th ACM Asia Conference on Computer and Communications Security},
+  pages={542--558},
+  year={2025}
+}
+```
+
 ## ⚠️ Disclaimer
 
 This project is provided **strictly for research and educational purposes only**.
